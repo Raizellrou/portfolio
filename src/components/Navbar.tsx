@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -28,8 +29,8 @@ export default function Navbar() {
       }`}
     >
       <div className="mx-auto max-w-5xl flex items-center justify-between px-6 py-4">
-        <a href="#" className="text-lg font-semibold tracking-tight">
-          Your Name
+        <a href="#" className="text-lg font-semibold tracking-tight cursor-pointer">
+          Dev with Charles
         </a>
 
         <div className="hidden md:flex items-center gap-8">
@@ -37,7 +38,7 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm text-muted hover:text-foreground transition-colors"
+              className="relative text-sm text-muted hover:text-foreground transition-colors cursor-pointer after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-0 after:bg-accent after:transition-all after:duration-200 hover:after:w-full"
             >
               {link.label}
             </a>
@@ -45,7 +46,7 @@ export default function Navbar() {
         </div>
 
         <button
-          className="md:hidden p-2"
+          className="md:hidden p-2 cursor-pointer"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
@@ -66,20 +67,30 @@ export default function Navbar() {
         </button>
       </div>
 
-      {mobileOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-md border-b border-border px-6 pb-4">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setMobileOpen(false)}
-              className="block py-2 text-sm text-muted hover:text-foreground transition-colors"
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
-      )}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden overflow-hidden bg-background/95 backdrop-blur-md border-b border-border"
+          >
+            <div className="px-6 pb-4">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="block py-2 text-sm text-muted hover:text-foreground transition-colors cursor-pointer"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }

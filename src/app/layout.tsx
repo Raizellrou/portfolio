@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Your Name — Developer Portfolio",
+  title: "Charles Erick S. Ramos — Developer Portfolio",
   description:
-    "Full-stack developer building clean, useful software.",
+    "Aspiring developer building clean, useful software.",
 };
 
 export default function RootLayout({
